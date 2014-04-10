@@ -137,3 +137,18 @@
 	
 ?>
 ```
+
+
+
+##Search using autocomplete
+```php
+<?php
+
+	$term = "monst";
+	$results = $this->haystack->autocomplete($term);
+    foreach($results->results as $suggested){
+        echo "$suggested<br />";
+	}
+	
+?>
+```
