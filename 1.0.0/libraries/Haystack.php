@@ -626,6 +626,7 @@ class Haystack
 		{
 			$query['fetch'] = $fetch_fields;
 		}
+        $query['match_any_field'] = 'true';
 		
 		$query['fetch_variables'] = $fetch_variables;
 		$query['fetch_categories'] = $fetch_categories;
