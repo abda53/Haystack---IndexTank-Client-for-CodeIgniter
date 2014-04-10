@@ -526,6 +526,52 @@ class Haystack
 				return FALSE;
 		}
 	}
+    
+    
+	
+    /**
+     * Get autocomplete suggested results
+     * 
+	 * @access public
+	 * @param mixed $word
+     * @param mixed $field (default: text) 
+     * @return array
+     * 
+     * Usage: 
+     * $suggestions = $this->haystack->autocomplete($partial_word,'description');
+     *  
+    */
+	function autocomplete($word,$field='text'){		
+        $q = array(
+            'query'=>$word,
+            'field'=>$field
+        );        
+		$this->set_api_call_url('autocomplete');
+		$response = $this->api_call('GET', $q);
+        
+		switch($response->status)
+		{
+			case 200:
+				return $response->body->suggestions;
+			case 400:
+				log_message('error', 'IndexTank 400: Invalid or missing argument');
+				return FALSE;
+			case 404:
+				log_message('error', 'IndexTank 404: No Index existed for the given name.');
+				return FALSE;
+			case 409:
+				log_message('error', 'IndexTank 409: The index was initializing.');
+				return FALSE;
+			case 503:
+				log_message('error', 'IndexTank 503: Sevice unavailable.');
+				return FALSE;
+			default:
+				log_message('error', "IndexTank {$response->status}: An undefined error occurred.");
+				return FALSE;
+		}
+    }
+	
+	
 	
 	
 	/**
